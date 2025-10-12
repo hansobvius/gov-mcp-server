@@ -1,0 +1,18 @@
+{
+  "manifest_version": "0.2",
+  "name": "gov-mcp-server",
+  "version": "0.0.1",
+  "description": "MCP Server para buscar informações sobre o congresso brasileiro",
+  "author": { "name": "Thiago Caiado" },
+  "server": {
+    "type": "python",
+    "entry_point": "src/main.py",
+    "mcp_config": {
+      "command": "python",
+      "args": [
+        "${__dirname}/src/main.py"
+      ]
+    }
+  },
+  "license": "MIT"
+}
