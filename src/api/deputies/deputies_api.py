@@ -4,7 +4,7 @@ from typing import Any, Dict
 from src.config import URL_BASE_API
 
 
-async def get_deputados_by_name(name: str) -> Dict[str, Any]:
+async def get_deputados_by_name(name: str) -> Dict[str, Any] | None:
     async with httpx.AsyncClient() as client:
         try:
             params = {
@@ -18,21 +18,14 @@ async def get_deputados_by_name(name: str) -> Dict[str, Any]:
                 timeout=30.0)
             response.raise_for_status()
             return response.json()
-        except httpx.RequestError as exc:
-            return {
-                "status": "Error",
-                "message": exc
-            }
+        except httpx.RequestError:
+            return None
 
-async def get_deputados_details(id: int) -> Dict[str, any]:
+async def get_deputados_details(deputy_id: int) -> Dict[str, any] | None:
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.get(f"{URL_BASE_API}/deputados/{id}", timeout=30.0)
-            response = await client.get(URL_BASE_API, timeout=30.0)
+            response = await client.get(f"{URL_BASE_API}/deputados/{deputy_id}", timeout=30.0)
             response.raise_for_status()
             return response.json()
-        except httpx.RequestError as exc:
-            return {
-                "status": "Error",
-                "message": exc
-            }
+        except httpx.RequestError:
+            return None

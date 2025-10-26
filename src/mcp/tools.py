@@ -1,1 +1,1 @@
-from project_tools import deputados_tools
+from project_tools import deputies_tools
