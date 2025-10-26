@@ -9,8 +9,9 @@ import json
 import subprocess
 import time
 
-# Add src to path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+# Add project root to path so we can import modules
+project_root = os.path.join(os.path.dirname(__file__), '..')
+sys.path.insert(0, project_root)
 
 
 class MCPTester:
@@ -30,7 +31,7 @@ class MCPTester:
         print("\n🔍 Testing API Connectivity...")
         
         try:
-            from api.deputies.deputies_api import get_deputados_by_name
+            from src.api.deputies.deputies_api import get_deputados_by_name
             
             # Test with a simple query
             result = await get_deputados_by_name("test")
@@ -51,7 +52,7 @@ class MCPTester:
         print("\n🔍 Testing Deputies Search...")
         
         try:
-            from api.deputies.deputies_api import get_deputados_by_name
+            from src.api.deputies.deputies_api import get_deputados_by_name
             
             # Test cases
             test_cases = [
@@ -89,7 +90,7 @@ class MCPTester:
         print("\n🔍 Testing Deputy Details...")
         
         try:
-            from api.deputies.deputies_api import get_deputados_by_name, get_deputados_details
+            from src.api.deputies.deputies_api import get_deputados_by_name, get_deputados_details
             
             # Get a deputy ID first
             result = await get_deputados_by_name("eduardo")
@@ -119,7 +120,7 @@ class MCPTester:
         print("\n🔍 Testing MCP Tool...")
         
         try:
-            from mcp.tools import get_deputies_by_names_tool
+            from src.mcp.tools import get_deputies_by_names_tool
             
             # Test the tool
             result = await get_deputies_by_names_tool("eduardo")

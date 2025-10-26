@@ -10,7 +10,7 @@ async def get_deputados_by_name(name: str) -> Dict[str, Any] | None:
             params = {
                 "nome": name,
                 "ordem": "ASC",
-                "ordernarPor": "nome"
+                "ordenarPor": "nome"
             }
             response = await client.get(
                 f"{URL_BASE_API}/deputados",

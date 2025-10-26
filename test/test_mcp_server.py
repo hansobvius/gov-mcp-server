@@ -7,11 +7,12 @@ import sys
 import os
 import json
 
-# Add src to path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+# Add project root to path so we can import modules
+project_root = os.path.join(os.path.dirname(__file__), '..')
+sys.path.insert(0, project_root)
 
-from mcp.server.fastmcp import FastMCP
-from mcp.tools import get_deputies_by_names_tool
+from src.mcp.server.fastmcp import FastMCP
+from src.mcp.tools import get_deputies_by_names_tool
 
 
 async def test_mcp_tool():
@@ -44,7 +45,7 @@ async def test_mcp_server_initialization():
     print("\n🔍 Testing MCP server initialization...")
     
     try:
-        from config import mcp
+        from src.config import mcp
         print(f"✅ MCP server initialized: {mcp.name}")
         print(f"   Server type: {type(mcp)}")
         

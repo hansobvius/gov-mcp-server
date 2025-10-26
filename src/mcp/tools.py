@@ -1,1 +1,1 @@
-from project_tools import deputies_tools
+from src.mcp.project_tools import deputies_tools
