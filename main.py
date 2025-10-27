@@ -1,16 +1,25 @@
+#!/usr/bin/env python3
+"""
+MCP Server para buscar informações sobre o congresso brasileiro
+Consolidated version with all functionality in a single file
+"""
+
+import json
 import httpx
 import sys
-import os
-
 from typing import Any, Dict
+from mcp.server.fastmcp import FastMCP
 
-# Add src directory to Python path for imports
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+# Constants
+URL_BASE_API = "https://dadosabertos.camara.leg.br/api/v2"
 
-from config import URL_BASE_API
+# Initialize MCP server
+mcp = FastMCP("gov-mcp-server")
 
 
+# API Functions
 async def get_deputados_by_name(name: str) -> Dict[str, Any] | None:
+    """Busca deputados pelo nome na API da Câmara dos Deputados"""
     async with httpx.AsyncClient() as client:
         try:
             params = {
@@ -47,7 +56,7 @@ async def get_deputados_by_name(name: str) -> Dict[str, Any] | None:
                             deputies_details.append(deputy)
                     except Exception as e:
                         # If error getting details, use basic info
-                        print(f"Warning: Could not get details for deputy {deputy_id}: {e}")
+                        print(f"Warning: Could not get details for deputy {deputy_id}: {e}", file=sys.stderr)
                         deputies_details.append(deputy)
             
             # Return in the same format as the original API
@@ -59,7 +68,9 @@ async def get_deputados_by_name(name: str) -> Dict[str, Any] | None:
         except httpx.RequestError:
             return None
 
+
 async def get_deputy_details(deputy_id: int) -> Dict[str, Any] | None:
+    """Busca detalhes de um deputado específico pelo ID"""
     async with httpx.AsyncClient() as client:
         try:
             response = await client.get(f"{URL_BASE_API}/deputados/{deputy_id}", timeout=30.0)
@@ -67,3 +78,21 @@ async def get_deputy_details(deputy_id: int) -> Dict[str, Any] | None:
             return response.json()
         except httpx.RequestError:
             return None
+
+
+# MCP Tools
+@mcp.tool()
+async def get_deputies_by_names_tool(name: str) -> str:
+    """Busca deputies pelo nome.
+    Args:
+        name: Nome ou parte do nome do deputado (ex: eduardo)
+    """
+    data = await get_deputados_by_name(name=name)
+    if data:
+        # Return as JSON string
+        return json.dumps(data, ensure_ascii=False)
+    return json.dumps({"error": "No deputies found", "dados": []})
+
+
+if __name__ == '__main__':
+    mcp.run(transport='stdio')

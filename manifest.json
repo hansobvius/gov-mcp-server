@@ -6,13 +6,18 @@
   "author": { "name": "Thiago Caiado" },
   "server": {
     "type": "python",
-    "entry_point": "src/main.py",
+    "entry_point": "main.py",
     "mcp_config": {
       "command": "python",
       "args": [
-        "${__dirname}/src/main.py"
+        "${__dirname}/main.py"
       ]
     }
   },
+  "requirements": [
+    "mcp>=1.0.0",
+    "httpx>=0.25.0",
+    "typing-extensions>=4.0.0"
+  ],
   "license": "MIT"
 }

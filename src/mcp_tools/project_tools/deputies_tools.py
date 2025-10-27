@@ -1,7 +1,12 @@
 import json
+import sys
+import os
 
-from src.config import mcp
-from src.api.api import get_deputados_by_name
+# Add src directory to Python path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
+from config import mcp
+from api.api import get_deputados_by_name
 
 
 @mcp.tool()
