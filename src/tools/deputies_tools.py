@@ -3,7 +3,7 @@ import sys
 import os
 
 # Add src directory to Python path for imports
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from config import mcp
 from api.api import get_deputados_by_name
