@@ -53,7 +53,7 @@ async def get_deputados_by_name(name: str) -> Dict[str, Any] | None:
         except httpx.RequestError:
             return None
 
-async def get_deputy_details(deputy_id: int) -> Dict[str, any] | None:
+async def get_deputy_details(deputy_id: int) -> Dict[str, Any] | None:
     async with httpx.AsyncClient() as client:
         try:
             response = await client.get(f"{URL_BASE_API}/deputados/{deputy_id}", timeout=30.0)

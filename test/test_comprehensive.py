@@ -20,7 +20,7 @@ class MCPTester:
     
     def log_test(self, test_name, success, message=""):
         """Log test result"""
-        status = "✅ PASS" if success else "❌ FAIL"
+        status = "[PASS]" if success else "[FAIL]"
         print(f"{status} {test_name}")
         if message:
             print(f"    {message}")
@@ -28,7 +28,7 @@ class MCPTester:
     
     async def test_api_connectivity(self):
         """Test API connectivity"""
-        print("\n🔍 Testing API Connectivity...")
+        print("\n[TEST] Testing API Connectivity...")
         
         try:
             from src.api.deputies.deputies_api import get_deputados_by_name
@@ -49,7 +49,7 @@ class MCPTester:
     
     async def test_deputies_search(self):
         """Test deputies search functionality"""
-        print("\n🔍 Testing Deputies Search...")
+        print("\n[TEST] Testing Deputies Search...")
         
         try:
             from src.api.deputies.deputies_api import get_deputados_by_name
@@ -87,7 +87,7 @@ class MCPTester:
     
     async def test_deputy_details(self):
         """Test deputy details functionality"""
-        print("\n🔍 Testing Deputy Details...")
+        print("\n[TEST] Testing Deputy Details...")
         
         try:
             from src.api.deputies.deputies_api import get_deputados_by_name, get_deputados_details
@@ -117,7 +117,7 @@ class MCPTester:
     
     async def test_mcp_tool(self):
         """Test MCP tool functionality"""
-        print("\n🔍 Testing MCP Tool...")
+        print("\n[TEST] Testing MCP Tool...")
         
         try:
             from src.mcp.tools import get_deputies_by_names_tool
@@ -138,7 +138,7 @@ class MCPTester:
     
     def test_imports(self):
         """Test all imports"""
-        print("\n🔍 Testing Imports...")
+        print("\n[TEST] Testing Imports...")
         
         imports_to_test = [
             ("src.config", "Config module"),
@@ -163,7 +163,7 @@ class MCPTester:
     
     def test_manifest(self):
         """Test manifest.json validity"""
-        print("\n🔍 Testing Manifest...")
+        print("\n[TEST] Testing Manifest...")
         
         try:
             manifest_path = os.path.join(os.path.dirname(__file__), '..', 'manifest.json')
@@ -187,7 +187,7 @@ class MCPTester:
     def print_summary(self):
         """Print test summary"""
         print("\n" + "="*50)
-        print("📊 TEST SUMMARY")
+        print("TEST SUMMARY")
         print("="*50)
         
         total_tests = len(self.test_results)
@@ -200,7 +200,7 @@ class MCPTester:
         print(f"Success Rate: {(passed_tests/total_tests)*100:.1f}%")
         
         if failed_tests > 0:
-            print("\n❌ Failed Tests:")
+            print("\n[FAIL] Failed Tests:")
             for test_name, success, message in self.test_results:
                 if not success:
                     print(f"  - {test_name}: {message}")
@@ -210,7 +210,7 @@ class MCPTester:
 
 async def main():
     """Run comprehensive tests"""
-    print("🚀 Starting Comprehensive MCP Server Tests")
+    print("[START] Starting Comprehensive MCP Server Tests")
     print("="*50)
     
     tester = MCPTester()
