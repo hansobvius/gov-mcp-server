@@ -14,10 +14,5 @@
       ]
     }
   },
-  "requirements": [
-    "mcp>=1.0.0",
-    "httpx>=0.25.0",
-    "typing-extensions>=4.0.0"
-  ],
   "license": "MIT"
 }
