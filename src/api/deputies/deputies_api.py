@@ -1,12 +1,7 @@
 import httpx
-import sys
-import os
 from typing import Any, Dict
 
-# Add src directory to Python path for imports
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-
-from config import URL_BASE_API
+from src.config import URL_BASE_API
 
 
 async def get_deputados_by_name(name: str) -> Dict[str, Any] | None:
@@ -47,7 +42,7 @@ async def get_deputados_by_name(name: str) -> Dict[str, Any] | None:
                             deputies_details.append(deputy)
                     except Exception as e:
                         # If error getting details, use basic info
-                        print(f"Warning: Could not get details for deputy {deputy_id}: {e}", file=sys.stderr)
+                        print(f"Warning: Could not get details for deputy {deputy_id}: {e}")
                         deputies_details.append(deputy)
             
             # Return in the same format as the original API

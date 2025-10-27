@@ -11,8 +11,8 @@ import json
 project_root = os.path.join(os.path.dirname(__file__), '..')
 sys.path.insert(0, project_root)
 
-from src.mcp.server.fastmcp import FastMCP
-from src.mcp.tools import get_deputies_by_names_tool
+from src.config import mcp
+import src.tools.deputies_tools as deputies_tools
 
 
 async def test_mcp_tool():
@@ -21,7 +21,7 @@ async def test_mcp_tool():
     
     try:
         # Test the tool function
-        result = await get_deputies_by_names_tool("eduardo")
+        result = await deputies_tools.get_deputies_by_names_tool("eduardo")
         print(f"[SUCCESS] Tool executed successfully")
         print(f"   Result type: {type(result)}")
         print(f"   Result length: {len(str(result))} characters")
@@ -45,7 +45,7 @@ async def test_mcp_server_initialization():
     print("\n[TEST] Testing MCP server initialization...")
     
     try:
-        from src.config import mcp
+        # Use the top-level imported `mcp`
         print(f"[SUCCESS] MCP server initialized: {mcp.name}")
         print(f"   Server type: {type(mcp)}")
         
