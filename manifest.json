@@ -6,11 +6,11 @@
   "author": { "name": "Thiago Caiado" },
   "server": {
     "type": "python",
-    "entry_point": "src/main.py",
+    "entry_point": "main.py",
     "mcp_config": {
       "command": "python",
       "args": [
-        "${__dirname}/src/main.py"
+        "${__dirname}/main.py"
       ]
     }
   },

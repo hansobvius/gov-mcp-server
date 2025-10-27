@@ -1,10 +1,11 @@
 import httpx
-
 from typing import Any, Dict
+
 from src.config import URL_BASE_API
 
 
 async def get_deputados_by_name(name: str) -> Dict[str, Any] | None:
+    """Busca deputados pelo nome na API da Câmara dos Deputados"""
     async with httpx.AsyncClient() as client:
         try:
             params = {
@@ -53,7 +54,9 @@ async def get_deputados_by_name(name: str) -> Dict[str, Any] | None:
         except httpx.RequestError:
             return None
 
+
 async def get_deputy_details(deputy_id: int) -> Dict[str, Any] | None:
+    """Busca detalhes de um deputado específico pelo ID"""
     async with httpx.AsyncClient() as client:
         try:
             response = await client.get(f"{URL_BASE_API}/deputados/{deputy_id}", timeout=30.0)
