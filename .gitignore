@@ -32,3 +32,4 @@ env/
 .DS_Store
 Thumbs.db
 
+/gov-mcp-server.mcpb

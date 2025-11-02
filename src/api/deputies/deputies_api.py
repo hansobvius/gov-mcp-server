@@ -1,4 +1,5 @@
 import httpx
+import asyncio
 from typing import Any, Dict
 
 from src.config import URL_BASE_API
@@ -24,13 +25,10 @@ async def get_deputados_by_name(name: str) -> Dict[str, Any] | None:
             deputies_list = data.get('dados', [])
             if not deputies_list:
                 return None  # Return empty result if no deputies found
-
-            # Limit to first 5 deputies to avoid too many API calls
-            limited_deputies = deputies_list[:5]
             
             # Get details for limited deputies found
             deputies_details = []
-            for deputy in limited_deputies:
+            for deputy in deputies_list:
                 deputy_id = deputy.get('id')
                 if deputy_id:
                     try:
@@ -64,3 +62,13 @@ async def get_deputy_details(deputy_id: int) -> Dict[str, Any] | None:
             return response.json()
         except httpx.RequestError:
             return None
+
+
+# Move the runnable debug entrypoint here so functions are defined before use
+# if __name__ == "__main__":
+#     async def _debug_run():
+#         result = await get_deputados_by_name("Eduardo")
+#         print(result)
+#
+#     # Run the async entrypoint so the module can be executed directly for debugging
+#     asyncio.run(_debug_run())
