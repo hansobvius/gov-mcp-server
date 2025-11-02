@@ -6,7 +6,10 @@ Main entry point - imports from src modules
 
 # Use package imports; ensure `src` is a proper package (has __init__.py)
 from src.config import mcp
-import src.tools.deputies_tools  # import module to register its tools with `mcp`
+
+# import module to register its tools with `mcp`
+import src.tools.deputies_tools
+import src.tools.proposition_tools
 
 
 if __name__ == '__main__':

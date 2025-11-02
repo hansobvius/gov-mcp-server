@@ -10,7 +10,7 @@ import os
 project_root = os.path.join(os.path.dirname(__file__), '..')
 sys.path.insert(0, project_root)
 
-from src.api.propositions.propositions import get_propositions_by_id, get_proposition_details
+from src.api.propositions.propositions_api import get_propositions_by_id, get_proposition_details
 
 
 async def test_proposition_by_id():
