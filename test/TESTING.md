@@ -15,7 +15,7 @@ pip install -r requirements.txt
 python test/test_comprehensive.py
 
 # Run individual API tests
-python test/test_api.py
+python test/test_deputies_api.py
 
 # Run MCP server tests
 python test/test_mcp_server.py
