@@ -11,7 +11,7 @@ import json
 project_root = os.path.join(os.path.dirname(__file__), '..')
 sys.path.insert(0, project_root)
 
-from src.config import mcp
+import src.config as config
 import src.tools.deputies_tools as deputies_tools
 
 
@@ -45,14 +45,14 @@ async def test_mcp_server_initialization():
     print("\n[TEST] Testing MCP server initialization...")
     
     try:
-        # Use the top-level imported `mcp`
-        print(f"[SUCCESS] MCP server initialized: {mcp.name}")
-        print(f"   Server type: {type(mcp)}")
-        
+        # Use the top-level imported `config.mcp`
+        print(f"[SUCCESS] MCP server initialized: {config.mcp.name}")
+        print(f"   Server type: {type(config.mcp)}")
+
         # Check if tools are registered
-        if hasattr(mcp, 'tools'):
-            print(f"   Registered tools: {len(mcp.tools) if mcp.tools else 0}")
-        
+        if hasattr(config.mcp, 'tools'):
+            print(f"   Registered tools: {len(config.mcp.tools) if config.mcp.tools else 0}")
+
     except Exception as e:
         print(f"[ERROR] Server initialization failed: {e}")
         import traceback
