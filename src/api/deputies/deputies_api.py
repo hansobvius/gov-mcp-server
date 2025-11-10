@@ -76,14 +76,10 @@ async def get_deputy_details(deputy_id: int) -> Dict[str, Any] | None:
             formatted_response = response.json()
             return {
                 "dados": {
-                    "details": formatted_response,
+                    "details": formatted_response.get("dados", []),
                     "deputy_front_lines": deputies_front_line_list
                 }
             }
-            # return {
-            #     "details": formatted_response,
-            #     "deputy_front_lines": deputies_front_line_list
-            # }
         except httpx.RequestError:
             return None
 
