@@ -85,10 +85,10 @@ async def get_deputy_details(deputy_id: int) -> Dict[str, Any] | None:
 
 
 # Move the runnable debug entrypoint here so functions are defined before use
-if __name__ == "__main__":
-    async def _debug_run():
-        result = await get_deputados_by_name("Eduardo")
-        print(result)
-
-    # Run the async entrypoint so the module can be executed directly for debugging
-    asyncio.run(_debug_run())
+# if __name__ == "__main__":
+#     async def _debug_run():
+#         result = await get_deputados_by_name("Eduardo")
+#         print(result)
+#
+#     # Run the async entrypoint so the module can be executed directly for debugging
+#     asyncio.run(_debug_run())
