@@ -2,6 +2,7 @@ import httpx
 import asyncio
 from typing import Any, Dict
 
+from src.api.deputies.deputy_front_line import get_front_line_by_deputy
 from src.config import URL_BASE_API
 
 
@@ -59,16 +60,39 @@ async def get_deputy_details(deputy_id: int) -> Dict[str, Any] | None:
         try:
             response = await client.get(f"{URL_BASE_API}/deputados/{deputy_id}", timeout=30.0)
             response.raise_for_status()
-            return response.json()
+
+            front_line_response = await get_front_line_by_deputy(deputy_id)
+            front_line_response_data = front_line_response.get('dados', []) if front_line_response else []
+
+            deputies_front_line_list = []
+            for front_line in front_line_response_data:
+                deputies_front_line_list.append({
+                    "id": front_line.get("id"),
+                    "uri": front_line.get("uri"),
+                    "titulo": front_line.get("titulo"),
+                    "idLegislatura": front_line.get("idLegislatura"),
+                })
+
+            formatted_response = response.json()
+            return {
+                "dados": {
+                    "details": formatted_response,
+                    "deputy_front_lines": deputies_front_line_list
+                }
+            }
+            # return {
+            #     "details": formatted_response,
+            #     "deputy_front_lines": deputies_front_line_list
+            # }
         except httpx.RequestError:
             return None
 
 
 # Move the runnable debug entrypoint here so functions are defined before use
-# if __name__ == "__main__":
-#     async def _debug_run():
-#         result = await get_deputados_by_name("Eduardo")
-#         print(result)
-#
-#     # Run the async entrypoint so the module can be executed directly for debugging
-#     asyncio.run(_debug_run())
+if __name__ == "__main__":
+    async def _debug_run():
+        result = await get_deputados_by_name("Eduardo")
+        print(result)
+
+    # Run the async entrypoint so the module can be executed directly for debugging
+    asyncio.run(_debug_run())
