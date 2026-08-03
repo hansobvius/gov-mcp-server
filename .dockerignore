@@ -1,0 +1,12 @@
+.git
+.gitignore
+.venv
+venv
+env
+__pycache__
+**/*.pyc
+.idea
+.vscode
+.pytest_cache
+.mypy_cache
+gov-mcp-server.mcpb

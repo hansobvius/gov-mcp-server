@@ -2,43 +2,50 @@
 
 # Government MCP Server
 
-A Model Context Protocol (MCP) server that provides access to Brazilian government open data APIs, specifically focused on congressional deputy information from the Chamber of Deputies (Câmara dos Deputados).
+A Model Context Protocol (MCP) server that provides access to Brazilian government open data APIs, specifically focused on congressional deputy and proposition information from the Chamber of Deputies (Câmara dos Deputados).
 
 ## Overview
 
-This project implements an MCP server that allows AI assistants and other applications to query Brazilian government databases through a standardized protocol. The server currently provides tools to search for information about federal deputies using the official open data API from the Chamber of Deputies.
+This project implements an MCP server that allows AI assistants (Claude Desktop, Google Antigravity, etc.) and other applications to query Brazilian government databases through a standardized protocol. The server provides tools to search for information about federal deputies and legislative propositions using the official open data API from the Chamber of Deputies.
 
 ## Features
 
-- **Deputy Search**: Search for federal deputies by name
-- **Open Data Integration**: Connects to the official Brazilian government open data API
-- **MCP Protocol**: Implements the Model Context Protocol for seamless AI assistant integration
-- **Async Operations**: Built with async/await for optimal performance
+- **Deputy Search & Details**: Search for federal deputies by name and query their detailed information.
+- **Proposition Queries**: Search for legislative proposals and details related to deputies.
+- **Dual Transport (stdio & SSE)**: Run locally via standard input/output (`stdio`) or as a networked HTTP/SSE service (`sse`).
+- **Docker Ready**: Includes `Dockerfile` and `docker-compose.yml` for quick containerized deployment.
+- **Open Data Integration**: Connects to the official Brazilian government open data API.
+- **Async Operations**: Built with `async`/`await` and `httpx` for optimal performance.
 
 ## Project Structure
 
 ```
-src/
-├── main.py                 # Main application entry point
-├── config.py              # Configuration and MCP server initialization
-├── api/
-│   ├── api.py            # API module imports
-│   └── deputados/
-│       └── deputados_api.py  # Deputy API implementation
-└── mcp/
-    ├── tools.py          # MCP tool definitions
-    └── project_tools/
-        └── deputados_tools.py  # Deputy-specific tools
+gov-mcp-server/
+├── Dockerfile                  # Docker image definition
+├── docker-compose.yml          # Docker compose configuration
+├── .dockerignore               # Docker ignore rules
+├── requirements.txt            # Python dependencies
+├── main.py                     # Main application entry point (stdio / SSE)
+├── manifest.json               # MCP server metadata
+└── src/
+    ├── config.py               # FastMCP instance & configuration
+    ├── api/
+    │   ├── api.py              # Central API export module
+    │   ├── deputies/           # Deputies API integration
+    │   └── propositions/       # Propositions API integration
+    └── tools/
+        ├── deputies_tools.py   # Deputy MCP tools
+        └── proposition_tools.py # Proposition MCP tools
 ```
 
-## Installation
+## Installation & Setup
 
 ### Prerequisites
 
-- Python 3.8 or higher
+- Python 3.10+ (or Docker)
 - pip (Python package installer)
 
-### Setup
+### Local Setup
 
 1. Clone the repository:
 ```bash
@@ -46,40 +53,111 @@ git clone <repository-url>
 cd gov-mcp-server
 ```
 
-2. Install dependencies:
+2. (Optional) Create and activate a virtual environment:
 ```bash
-pip install mcp httpx
+python -m venv .venv
+# Windows:
+.venv\Scripts\activate
+# Linux/macOS:
+source .venv/bin/activate
 ```
 
-3. Run the server:
+3. Install dependencies:
 ```bash
-python src/main.py
+pip install -r requirements.txt
 ```
 
-## Usage
+---
 
-### Running the MCP Server
+## Running the Server
 
-The server runs in stdio mode and can be integrated with MCP-compatible clients:
+### 1. Standard stdio Mode (Default for Local AI Assistants)
 
 ```bash
-python src/main.py
+python main.py
 ```
 
-### Available Tools
+### 2. HTTP Mode (Streamable HTTP / SSE)
 
-#### `get_deputados_por_nome`
+Run directly with Python:
+```bash
+# Using CLI flag:
+python main.py --http
 
+# Or using environment variables:
+MCP_TRANSPORT=http HOST=0.0.0.0 PORT=8000 python main.py
+```
+
+### 3. Docker Container (Localhost / Remote PoC)
+
+**Using Docker Compose:**
+```bash
+docker compose up --build
+```
+
+**Using Docker CLI:**
+```bash
+docker build -t gov-mcp-server .
+docker run -p 8000:8000 --name gov-mcp-server gov-mcp-server
+```
+
+The Streamable HTTP endpoint will be available at: `http://localhost:8000/mcp` (or `http://localhost:8000/sse` for SSE).
+
+---
+
+## Client Configuration
+
+### Google Antigravity & Claude Desktop
+
+#### Option A: Local `stdio` Mode
+
+Add to your `mcp_config.json` (`~/.gemini/config/mcp_config.json` in Antigravity or `claude_desktop_config.json` in Claude Desktop):
+
+```json
+{
+  "mcpServers": {
+    "gov-mcp-server": {
+      "command": "python",
+      "args": [
+        "C:/Users/thiag/Projetos/MCP_Projects/gov-mcp-server/main.py"
+      ],
+      "env": {
+        "PYTHONPATH": "C:/Users/thiag/Projetos/MCP_Projects/gov-mcp-server"
+      }
+    }
+  }
+}
+```
+
+#### Option B: Docker / Remote `HTTP` Mode
+
+```json
+{
+  "mcpServers": {
+    "gov-mcp-server": {
+      "url": "http://localhost:8000/mcp"
+    }
+  }
+}
+```
+
+---
+
+## Available Tools
+
+### `get_deputies_by_names_tool`
 Search for federal deputies by name.
 
-**Parameters:**
-- `nome` (string): Name or partial name of the deputy (e.g., "eduardo")
+- **Parameters:**
+  - `name` (*string*): Name or partial name of the deputy (e.g., `"eduardo"`).
 
-**Example:**
-```python
-# Search for deputies with "eduardo" in their name
-result = await get_deputados_por_nome("eduardo")
-```
+### `get_propositions_by_id_tools`
+Search for propositions related to a deputy ID.
+
+- **Parameters:**
+  - `proposition_id` (*string*): Deputy or proposition ID (e.g., `"220589"`).
+
+---
 
 ## API Integration
 
@@ -89,62 +167,13 @@ The server integrates with the Brazilian Chamber of Deputies open data API:
 - **Data Source**: Official Brazilian government open data
 - **Update Frequency**: Real-time data from government systems
 
-## Configuration
-
-The server configuration is managed in `src/config.py`:
-
-```python
-URL_BASE_API = "https://dadosabertos.camara.leg.br/api/v2"
-```
-
-## Development
-
-### Adding New Tools
-
-1. Create API functions in the appropriate `src/api/` subdirectory
-2. Define MCP tools in `src/mcp/tools.py`
-3. Import and register tools in the main configuration
-
-### Project Architecture
-
-- **API Layer** (`src/api/`): Handles external API calls and data processing
-- **MCP Layer** (`src/mcp/`): Defines MCP tools and protocol implementation
-- **Configuration** (`src/config.py`): Server setup and constants
-
 ## Dependencies
 
-- `mcp`: Model Context Protocol implementation
+- `mcp`: Model Context Protocol SDK (`FastMCP`)
 - `httpx`: Async HTTP client for API requests
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+- `uvicorn`: ASGI server for SSE transport
+- `typing-extensions`: Type hints support
 
 ## License
 
-This project is open source. Please check the license file for details.
-
-## Support
-
-For issues and questions:
-1. Check existing issues in the repository
-2. Create a new issue with detailed information
-3. Provide logs and error messages when reporting bugs
-
-## Future Enhancements
-
-- Support for additional government APIs (Senate, ministries, etc.)
-- Enhanced search capabilities
-- Data caching and optimization
-- Authentication support for premium APIs
-- Additional data export formats
-
-## Related Projects
-
-- [Model Context Protocol](https://github.com/modelcontextprotocol): Official MCP specification
-- [Brazilian Government Open Data](https://dados.gov.br/): Official open data portal
-- [Chamber of Deputies API](https://dadosabertos.camara.leg.br/swagger/api.html): Official API documentation
+This project is licensed under the MIT License.
