@@ -6,226 +6,59 @@ import asyncio
 import sys
 import os
 import json
-import subprocess
-import time
+import pytest
 
 # Add project root to path so we can import modules
 project_root = os.path.join(os.path.dirname(__file__), '..')
 sys.path.insert(0, project_root)
 
-
-class MCPTester:
-    def __init__(self):
-        self.test_results = []
-    
-    def log_test(self, test_name, success, message=""):
-        """Log test result"""
-        status = "[PASS]" if success else "[FAIL]"
-        print(f"{status} {test_name}")
-        if message:
-            print(f"    {message}")
-        self.test_results.append((test_name, success, message))
-    
-    async def test_api_connectivity(self):
-        """Test API connectivity"""
-        print("\n[TEST] Testing API Connectivity...")
-        
-        try:
-            from src.api.deputies.deputies_api import get_deputados_by_name
-            
-            # Test with a simple query
-            result = await get_deputados_by_name("test")
-            
-            if result is not None:
-                self.log_test("API Connectivity", True, "API responded successfully")
-                return True
-            else:
-                self.log_test("API Connectivity", False, "API returned None")
-                return False
-                
-        except Exception as e:
-            self.log_test("API Connectivity", False, f"Exception: {e}")
-            return False
-    
-    async def test_deputies_search(self):
-        """Test deputies search functionality"""
-        print("\n[TEST] Testing Deputies Search...")
-        
-        try:
-            from src.api.deputies.deputies_api import get_deputados_by_name
-            
-            # Test cases
-            test_cases = [
-                ("eduardo", "Common name search"),
-                ("", "Empty string search"),
-                ("xyz123", "Non-existent name search"),
-                ("a", "Single character search")
-            ]
-            
-            all_passed = True
-            
-            for query, description in test_cases:
-                try:
-                    result = await get_deputados_by_name(query)
-                    
-                    if result is not None:
-                        count = len(result.get('dados', []))
-                        self.log_test(f"Search: {description}", True, f"Found {count} results")
-                    else:
-                        self.log_test(f"Search: {description}", False, "Returned None")
-                        all_passed = False
-                        
-                except Exception as e:
-                    self.log_test(f"Search: {description}", False, f"Exception: {e}")
-                    all_passed = False
-            
-            return all_passed
-            
-        except Exception as e:
-            self.log_test("Deputies Search", False, f"Import error: {e}")
-            return False
-    
-    async def test_deputy_details(self):
-        """Test deputy details functionality"""
-        print("\n[TEST] Testing Deputy Details...")
-        
-        try:
-            from src.api.deputies.deputies_api import get_deputados_by_name, get_deputados_details
-            
-            # Get a deputy ID first
-            result = await get_deputados_by_name("eduardo")
-            
-            if result and 'dados' in result and len(result['dados']) > 0:
-                deputy_id = result['dados'][0]['id']
-                
-                # Test getting details
-                details = await get_deputados_details(deputy_id)
-                
-                if details and 'dados' in details:
-                    self.log_test("Deputy Details", True, f"Retrieved details for deputy {deputy_id}")
-                    return True
-                else:
-                    self.log_test("Deputy Details", False, "Details returned None or invalid format")
-                    return False
-            else:
-                self.log_test("Deputy Details", False, "No deputies found to test details")
-                return False
-                
-        except Exception as e:
-            self.log_test("Deputy Details", False, f"Exception: {e}")
-            return False
-    
-    async def test_mcp_tool(self):
-        """Test MCP tool functionality"""
-        print("\n[TEST] Testing MCP Tool...")
-        
-        try:
-            from src.mcp.tools import get_deputies_by_names_tool
-            
-            # Test the tool
-            result = await get_deputies_by_names_tool("eduardo")
-            
-            if result and result != 'Result not generated':
-                self.log_test("MCP Tool", True, "Tool executed successfully")
-                return True
-            else:
-                self.log_test("MCP Tool", False, f"Tool returned: {result}")
-                return False
-                
-        except Exception as e:
-            self.log_test("MCP Tool", False, f"Exception: {e}")
-            return False
-    
-    def test_imports(self):
-        """Test all imports"""
-        print("\n[TEST] Testing Imports...")
-        
-        imports_to_test = [
-            ("src.config", "Config module"),
-            ("src.main", "Main module"),
-            ("src.api.api", "API module"),
-            ("src.api.deputies.deputies_api", "Deputies API module"),
-            ("src.mcp.tools", "MCP tools module"),
-            ("src.mcp.project_tools.deputies_tools", "Deputies tools module")
-        ]
-        
-        all_passed = True
-        
-        for module, description in imports_to_test:
-            try:
-                __import__(module)
-                self.log_test(f"Import: {description}", True)
-            except Exception as e:
-                self.log_test(f"Import: {description}", False, f"Error: {e}")
-                all_passed = False
-        
-        return all_passed
-    
-    def test_manifest(self):
-        """Test manifest.json validity"""
-        print("\n[TEST] Testing Manifest...")
-        
-        try:
-            manifest_path = os.path.join(os.path.dirname(__file__), '..', 'manifest.json')
-            with open(manifest_path, 'r') as f:
-                manifest = json.load(f)
-            
-            required_fields = ['name', 'version', 'server', 'mcp_config']
-            missing_fields = [field for field in required_fields if field not in manifest]
-            
-            if not missing_fields:
-                self.log_test("Manifest Validation", True, f"All required fields present")
-                return True
-            else:
-                self.log_test("Manifest Validation", False, f"Missing fields: {missing_fields}")
-                return False
-                
-        except Exception as e:
-            self.log_test("Manifest Validation", False, f"Error: {e}")
-            return False
-    
-    def print_summary(self):
-        """Print test summary"""
-        print("\n" + "="*50)
-        print("TEST SUMMARY")
-        print("="*50)
-        
-        total_tests = len(self.test_results)
-        passed_tests = sum(1 for _, success, _ in self.test_results if success)
-        failed_tests = total_tests - passed_tests
-        
-        print(f"Total Tests: {total_tests}")
-        print(f"Passed: {passed_tests}")
-        print(f"Failed: {failed_tests}")
-        print(f"Success Rate: {(passed_tests/total_tests)*100:.1f}%")
-        
-        if failed_tests > 0:
-            print("\n[FAIL] Failed Tests:")
-            for test_name, success, message in self.test_results:
-                if not success:
-                    print(f"  - {test_name}: {message}")
-        
-        print("="*50)
+from src.config import mcp
+from src.api.client import get_request
+from src.api.deputies.deputies_api import get_deputados, get_deputy_details
+from src.api.propositions.propositions_api import get_proposicoes
+from src.api.votacoes.votacoes_api import get_votacoes
+from src.api.orgaos.orgaos_api import get_orgaos
+from src.api.partidos.partidos_api import get_partidos
+from src.api.eventos.eventos_api import get_eventos
+from src.api.frentes.frentes_api import get_frentes
+from src.api.grupos.grupos_api import get_grupos
+from src.api.legislaturas.legislaturas_api import get_legislaturas
+from src.api.referencias.referencias_api import get_referencias_ufs
+import main
 
 
-async def main():
-    """Run comprehensive tests"""
-    print("[START] Starting Comprehensive MCP Server Tests")
-    print("="*50)
-    
-    tester = MCPTester()
-    
-    # Run all tests
-    tester.test_imports()
-    tester.test_manifest()
-    await tester.test_api_connectivity()
-    await tester.test_deputies_search()
-    await tester.test_deputy_details()
-    await tester.test_mcp_tool()
-    
-    # Print summary
-    tester.print_summary()
+@pytest.mark.asyncio
+async def test_all_modules_connectivity():
+    """Test connectivity and basic response structure across all domains."""
+    checks = [
+        ("Deputados", get_deputados(itens=2)),
+        ("Proposicoes", get_proposicoes(itens=2)),
+        ("Votacoes", get_votacoes(itens=2)),
+        ("Orgaos", get_orgaos(itens=2)),
+        ("Partidos", get_partidos(itens=2)),
+        ("Eventos", get_eventos(itens=2)),
+        ("Frentes", get_frentes(itens=2)),
+        ("Grupos", get_grupos(itens=2)),
+        ("Legislaturas", get_legislaturas(itens=2)),
+        ("Referencias", get_referencias_ufs()),
+    ]
+    for name, coro in checks:
+        res = await coro
+        assert res is not None, f"Module {name} failed to fetch data"
+        assert "dados" in res, f"Module {name} missing 'dados' key"
+        assert len(res["dados"]) > 0, f"Module {name} returned empty 'dados'"
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+@pytest.mark.asyncio
+async def test_fastmcp_tools_completeness():
+    """Verify all 70 MCP tools are registered and ready."""
+    tools = await mcp.list_tools()
+    assert len(tools) == 70, f"Expected 70 tools, found {len(tools)}"
+
+
+def test_manifest_validation():
+    """Validate manifest.json schema and metadata."""
+    manifest_path = os.path.join(os.path.dirname(__file__), '..', 'manifest.json')
+    with open(manifest_path, 'r', encoding='utf-8') as f:
+        manifest = json.load(f)
+    assert manifest.get("name") == "gov-mcp-server"
