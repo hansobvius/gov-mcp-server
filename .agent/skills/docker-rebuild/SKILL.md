@@ -8,9 +8,9 @@ description: Recria e atualiza o container Docker do projeto após alterações.
 Esta skill deve ser usada sempre que o usuário solicitar a atualização, recriação ou "rebuild" do container Docker do projeto para aplicar novas alterações no código.
 
 ## Quando usar:
-- O usuário pede para "atualizar o docker"
-- O usuário pede para "recriar o container"
-- O usuário quer subir uma imagem atualizada do projeto
+- O usuário pede explicitamente para "atualizar o docker", "gerar novo build" ou "recriar o container".
+- O usuário quer subir uma imagem atualizada do projeto.
+- O usuário anexa/menciona a pasta do projeto, o arquivo da skill ou o docker-compose no chat e indica (ou subentende-se pelo contexto) que deseja executar um novo build e subir o container Docker.
 
 ## Passos a executar:
 
