@@ -1,8 +1,11 @@
-# MCP (Model Context Protocol) dependencies
-mcp>=1.0.0
+# Modern FastMCP framework
+fastmcp>=2.0.0
 
 # HTTP client for API requests
 httpx>=0.25.0
+
+# ASGI server
+uvicorn>=0.30.0
 
 # Type hints support
 typing-extensions>=4.0.0
