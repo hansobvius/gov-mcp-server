@@ -18,4 +18,4 @@ async def test_mcp_tool_execution():
 async def test_mcp_server_initialization():
     assert mcp.name == "gov-mcp-server"
     tools = await mcp.list_tools()
-    assert len(tools) == 70
+    assert len(tools) == 126

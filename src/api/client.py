@@ -1,6 +1,6 @@
 import httpx
 from typing import Any, Dict, List, Optional, Union
-from src.config import URL_BASE_API
+from src.config import URL_BASE_API, URL_BASE_SENADO
 
 DEFAULT_TIMEOUT = 30.0
 DEFAULT_HEADERS = {
@@ -9,7 +9,7 @@ DEFAULT_HEADERS = {
 
 
 def format_params(params: Optional[Dict[str, Any]]) -> Dict[str, Any]:
-    """Formata os parâmetros de busca para a API da Câmara.
+    """Formata os parâmetros de busca para a API da Câmara e do Senado.
     
     Remove valores nulos/vazios e converte listas/tuplas em strings separadas por vírgula.
     """
@@ -48,6 +48,43 @@ async def get_request(
     """
     clean_endpoint = endpoint.strip("/")
     url = f"{URL_BASE_API}/{clean_endpoint}"
+    
+    req_headers = DEFAULT_HEADERS.copy()
+    if headers:
+        req_headers.update(headers)
+        
+    formatted_params = format_params(params)
+
+    async with httpx.AsyncClient(timeout=timeout) as client:
+        try:
+            response = await client.get(url, params=formatted_params, headers=req_headers)
+            response.raise_for_status()
+            return response.json()
+        except (httpx.HTTPStatusError, httpx.RequestError, Exception):
+            return None
+
+
+async def get_senado_request(
+    endpoint: str,
+    params: Optional[Dict[str, Any]] = None,
+    headers: Optional[Dict[str, str]] = None,
+    timeout: float = DEFAULT_TIMEOUT
+) -> Optional[Dict[str, Any]]:
+    """Executa uma requisição GET assíncrona na API de Dados Abertos do Senado Federal.
+
+    Args:
+        endpoint: Caminho relativo do endpoint (ex.: "/senador/lista/atual" ou "/comissao/lista/colegiados").
+        params: Dicionário com parâmetros de query string.
+        headers: Headers adicionais para a requisição.
+        timeout: Tempo limite da requisição em segundos.
+
+    Returns:
+        Dicionário com o payload JSON de resposta, ou None em caso de falha.
+    """
+    clean_endpoint = endpoint.strip("/")
+    if clean_endpoint.startswith("dadosabertos/"):
+        clean_endpoint = clean_endpoint[len("dadosabertos/"):]
+    url = f"{URL_BASE_SENADO}/{clean_endpoint}"
     
     req_headers = DEFAULT_HEADERS.copy()
     if headers:

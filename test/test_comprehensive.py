@@ -32,7 +32,7 @@ async def test_all_modules_connectivity():
     """Test connectivity and basic response structure across all domains."""
     checks = [
         ("Deputados", get_deputados(itens=2)),
-        ("Proposicoes", get_proposicoes(itens=2)),
+        ("Proposicoes", get_proposicoes(siglaTipo="PL", ano=2024, itens=2)),
         ("Votacoes", get_votacoes(itens=2)),
         ("Orgaos", get_orgaos(itens=2)),
         ("Partidos", get_partidos(itens=2)),
@@ -51,9 +51,9 @@ async def test_all_modules_connectivity():
 
 @pytest.mark.asyncio
 async def test_fastmcp_tools_completeness():
-    """Verify all 70 MCP tools are registered and ready."""
+    """Verify all 126 MCP tools are registered and ready."""
     tools = await mcp.list_tools()
-    assert len(tools) == 70, f"Expected 70 tools, found {len(tools)}"
+    assert len(tools) == 126, f"Expected 126 tools, found {len(tools)}"
 
 
 def test_manifest_validation():

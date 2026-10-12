@@ -12,7 +12,7 @@ async def test_tools_registration():
     tools_list = await mcp.list_tools()
     registered_tools = {t.name: t for t in tools_list}
 
-    assert len(registered_tools) == 70, f"Expected 70 tools, found {len(registered_tools)}"
+    assert len(registered_tools) == 126, f"Expected 126 tools, found {len(registered_tools)}"
     print(f"\nTotal registered MCP tools: {len(registered_tools)}")
 
     # Check key tools from all modules

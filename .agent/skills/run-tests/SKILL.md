@@ -19,10 +19,13 @@ Esta skill instrui o agente sobre como proceder sempre que o usuário solicitar 
 | `test/test_orgaos_api.py` | Testes da API de Órgãos (busca de órgãos, detalhes, membros, eventos) |
 | `test/test_legislaturas_partidos_api.py` | Testes de Partidos, Blocos Partidários e Legislaturas |
 | `test/test_referencias_api.py` | Testes das Tabelas de Referências e Domínios (UFs, tipos de despesa, etc.) |
-| `test/test_all_tools_registration.py` | Validação do registro e contagem de todas as 70 ferramentas MCP |
+| `test/test_all_tools_registration.py` | Validação do registro e contagem de todas as 126 ferramentas MCP |
 | `test/test_mcp_server.py` | Testes de inicialização do servidor FastMCP e chamada básica de tools |
 | `test/test_comprehensive.py` | Suíte de testes abrangente (imports, manifesto, conectividade e integração) |
 | `test/test_client.py` | Testes de execução via cliente FastMCP |
+| `test/test_senado_client.py` | Testes unitários do cliente HTTP do Senado Federal (formatação e mock) |
+| `test/test_senado_api.py` | Testes dos serviços da API do Senado em todos os 9 domínios temáticos |
+| `test/test_senado_tools_registration.py` | Validação do registro das 56 ferramentas MCP do Senado Federal |
 
 ---
 
@@ -86,10 +89,13 @@ Utilize a ferramenta `ask_question` para apresentar a seguinte pergunta:
         "test_orgaos_api.py - API de Órgãos (detalhes, membros, eventos)",
         "test_legislaturas_partidos_api.py - Partidos, Blocos e Legislaturas",
         "test_referencias_api.py - Tabelas de Referências e Domínios",
-        "test_all_tools_registration.py - Registro das 70 ferramentas MCP",
+        "test_all_tools_registration.py - Registro das 126 ferramentas MCP",
         "test_mcp_server.py - Servidor FastMCP e execução básica de tool",
         "test_comprehensive.py - Suíte abrangente (imports, manifesto, conectividade)",
-        "test_client.py - Cliente FastMCP"
+        "test_client.py - Cliente FastMCP",
+        "test_senado_client.py - Cliente HTTP do Senado Federal",
+        "test_senado_api.py - Serviços da API do Senado (9 domínios)",
+        "test_senado_tools_registration.py - Registro das 56 ferramentas do Senado"
       ],
       "is_multi_select": true
     }

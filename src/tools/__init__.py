@@ -106,6 +106,67 @@ from .referencias_tools import (
     get_referencias_situacoes_orgao_tool,
 )
 
+# Senado Federal
+from .senado import (
+    SENADO_TOOL_DESCRIPTIONS,
+    get_senadores_atuais_tool,
+    get_senadores_afastados_tool,
+    get_senadores_legislatura_tool,
+    get_senador_detalhes_tool,
+    get_senador_cargos_tool,
+    get_senador_comissoes_tool,
+    get_senador_filiacoes_tool,
+    get_senador_historico_academico_tool,
+    get_senador_licencas_tool,
+    get_senador_mandatos_tool,
+    get_senador_profissoes_tool,
+    get_comissoes_tipos_colegiado_tool,
+    get_comissoes_por_tipo_tool,
+    get_colegiados_atividade_tool,
+    get_comissoes_mistas_tool,
+    get_comissao_detalhes_tool,
+    get_comissao_agenda_tool,
+    get_comissao_cpi_requerimentos_tool,
+    get_comissao_reuniao_detalhes_tool,
+    get_comissao_documento_ultima_reuniao_tool,
+    get_composicao_mesa_sf_tool,
+    get_composicao_mesa_cn_tool,
+    get_liderancas_tool,
+    get_liderancas_tipos_tool,
+    get_partidos_senado_tool,
+    get_blocos_senado_tool,
+    get_bloco_senado_detalhes_tool,
+    get_composicao_comissao_tool,
+    get_composicao_comissao_mista_atual_tool,
+    get_composicao_comissao_mista_historica_tool,
+    get_processos_senado_tool,
+    get_processo_detalhes_senado_tool,
+    get_processo_documentos_senado_tool,
+    get_processo_emendas_senado_tool,
+    get_processo_referencias_senado_tool,
+    get_plenario_agenda_dia_tool,
+    get_plenario_agenda_cn_tool,
+    get_plenario_encontro_detalhes_tool,
+    get_plenario_resultado_tool,
+    get_plenario_resultado_veto_tool,
+    get_plenario_orientacao_bancada_tool,
+    get_votacoes_nominais_senado_tool,
+    get_votacao_comissao_materia_tool,
+    get_votacao_comissao_parlamentar_tool,
+    get_senador_discursos_tool,
+    get_senador_apartes_tool,
+    get_discurso_texto_integral_tool,
+    get_plenario_discursos_periodo_tool,
+    get_taquigrafia_notas_tool,
+    get_taquigrafia_videos_tool,
+    get_legislacao_lista_senado_tool,
+    get_legislacao_detalhes_senado_tool,
+    get_legislacao_tipos_norma_tool,
+    get_legislacao_termos_tool,
+    get_orcamento_emendas_senado_tool,
+    get_orcamento_oficios_senado_tool,
+)
+
 __all__ = [
     # Deputados
     "get_deputies_by_names_tool",
@@ -186,6 +247,8 @@ __all__ = [
     "get_referencias_orgaos_tool",
     "get_referencias_tipos_orgao_tool",
     "get_referencias_situacoes_orgao_tool",
+    # Senado Federal
+    *list(SENADO_TOOL_DESCRIPTIONS.keys()),
 ]
 
 # Centralized descriptions for agents / UI help
@@ -270,3 +333,6 @@ TOOL_DESCRIPTIONS = {
     "get_referencias_tipos_orgao_tool": "Tipos de órgãos legislativos existentes na Câmara.",
     "get_referencias_situacoes_orgao_tool": "Situações de funcionamento de órgãos da Câmara.",
 }
+
+# Mesclar descrições das ferramentas do Senado Federal
+TOOL_DESCRIPTIONS.update(SENADO_TOOL_DESCRIPTIONS)

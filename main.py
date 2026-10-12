@@ -20,6 +20,13 @@ import src.tools.eventos_tools
 import src.tools.frentes_grupos_tools
 import src.tools.legislaturas_tools
 import src.tools.referencias_tools
+import src.tools.senado.senadores_tools
+import src.tools.senado.comissoes_tools
+import src.tools.senado.composicao_tools
+import src.tools.senado.processos_tools
+import src.tools.senado.plenario_votacoes_tools
+import src.tools.senado.discursos_tools
+import src.tools.senado.legislacao_orcamento_tools
 
 
 if __name__ == '__main__':
