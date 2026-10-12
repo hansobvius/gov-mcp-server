@@ -1,7 +1,7 @@
 import json
 from typing import Any, Dict, List, Optional, Union
 from src.config import mcp
-from src.api.deputies.deputies_api import (
+from src.api.camara.deputies.deputies_api import (
     get_deputados,
     get_deputados_by_name,
     get_deputy_details,

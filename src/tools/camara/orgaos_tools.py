@@ -1,7 +1,7 @@
 import json
 from typing import Any, Dict, List, Optional, Union
 from src.config import mcp
-from src.api.orgaos.orgaos_api import (
+from src.api.camara.orgaos.orgaos_api import (
     get_orgaos,
     get_orgao_details,
     get_orgao_events,

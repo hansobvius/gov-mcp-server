@@ -1,7 +1,7 @@
 import json
 from typing import Any, Dict, List, Optional, Union
 from src.config import mcp
-from src.api.eventos.eventos_api import (
+from src.api.camara.eventos.eventos_api import (
     get_eventos,
     get_evento_details,
     get_evento_deputados,

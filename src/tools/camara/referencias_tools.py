@@ -1,7 +1,7 @@
 import json
 from typing import Any, Dict, List, Optional, Union
 from src.config import mcp
-from src.api.referencias.referencias_api import (
+from src.api.camara.referencias.referencias_api import (
     get_referencias_deputados,
     get_referencias_situacoes_deputado,
     get_referencias_tipos_profissao,

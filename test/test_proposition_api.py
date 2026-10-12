@@ -1,5 +1,5 @@
 import pytest
-from src.api.propositions.propositions_api import (
+from src.api.camara.propositions.propositions_api import (
     get_proposicoes,
     get_propositions_by_id,
     get_proposition_details,

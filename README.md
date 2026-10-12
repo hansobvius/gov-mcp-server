@@ -24,18 +24,19 @@ gov-mcp-server/
     ├── api/
     │   ├── client.py               # Centralized async HTTP client (Câmara & Senado)
     │   ├── api.py                  # Master API export module
-    │   ├── deputies/               # Deputies API services (Câmara)
-    │   ├── propositions/           # Propositions API services (Câmara)
-    │   ├── votacoes/               # Votings API services (Câmara)
-    │   ├── orgaos/                 # Committees & Organs API services (Câmara)
-    │   ├── partidos/               # Political Parties API services (Câmara)
-    │   ├── blocos/                 # Parliamentary Blocs API services (Câmara)
-    │   ├── eventos/                # Events & Sessions API services (Câmara)
-    │   ├── frentes/                # Parliamentary Fronts API services (Câmara)
-    │   ├── grupos/                 # Interparliamentary Groups API services (Câmara)
-    │   ├── legislaturas/           # Legislatures API services (Câmara)
-    │   ├── referencias/            # Reference tables (Câmara)
-    │   └── senado/                 # Senate API services (Senado Federal & Congresso)
+    │   ├── camara/                 # Câmara dos Deputados API services
+    │   │   ├── deputies/
+    │   │   ├── propositions/
+    │   │   ├── votacoes/
+    │   │   ├── orgaos/
+    │   │   ├── partidos/
+    │   │   ├── blocos/
+    │   │   ├── eventos/
+    │   │   ├── frentes/
+    │   │   ├── grupos/
+    │   │   ├── legislaturas/
+    │   │   └── referencias/
+    │   └── senado/                 # Senado Federal API services
     │       ├── senadores_api.py
     │       ├── comissoes_api.py
     │       ├── composicao_api.py
@@ -47,16 +48,17 @@ gov-mcp-server/
     │       └── orcamento_api.py
     └── tools/
         ├── __init__.py             # Public tools export & centralized descriptions
-        ├── deputies_tools.py       # Deputies MCP tools
-        ├── proposition_tools.py    # Propositions MCP tools
-        ├── votacoes_tools.py       # Votings MCP tools
-        ├── orgaos_tools.py         # Organs & Committees MCP tools
-        ├── partidos_blocos_tools.py# Parties & Blocs MCP tools
-        ├── eventos_tools.py        # Events MCP tools
-        ├── frentes_grupos_tools.py # Fronts & Groups MCP tools
-        ├── legislaturas_tools.py   # Legislatures MCP tools
-        ├── referencias_tools.py    # Reference tables MCP tools
-        └── senado/                 # Senate MCP tools
+        ├── camara/                 # Câmara dos Deputados MCP tools
+        │   ├── deputies_tools.py
+        │   ├── proposition_tools.py
+        │   ├── votacoes_tools.py
+        │   ├── orgaos_tools.py
+        │   ├── partidos_blocos_tools.py
+        │   ├── eventos_tools.py
+        │   ├── frentes_grupos_tools.py
+        │   ├── legislaturas_tools.py
+        │   └── referencias_tools.py
+        └── senado/                 # Senado Federal MCP tools
             ├── senadores_tools.py
             ├── comissoes_tools.py
             ├── composicao_tools.py

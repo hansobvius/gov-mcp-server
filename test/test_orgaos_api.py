@@ -1,5 +1,5 @@
 import pytest
-from src.api.orgaos.orgaos_api import get_orgaos, get_orgao_details
+from src.api.camara.orgaos.orgaos_api import get_orgaos, get_orgao_details
 
 
 @pytest.mark.asyncio

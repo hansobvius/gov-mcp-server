@@ -1,5 +1,5 @@
 import pytest
-from src.api.referencias.referencias_api import (
+from src.api.camara.referencias.referencias_api import (
     get_referencias_ufs,
     get_referencias_deputados,
     get_referencias_proposicoes,

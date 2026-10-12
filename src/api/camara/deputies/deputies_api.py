@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 from src.api.client import get_request
-from src.api.deputies.deputy_front_line import get_front_line_by_deputy
+from .deputy_front_line import get_front_line_by_deputy
 
 
 async def get_deputados(

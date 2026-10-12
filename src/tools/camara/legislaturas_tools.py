@@ -1,7 +1,7 @@
 import json
 from typing import Any, Dict, List, Optional, Union
 from src.config import mcp
-from src.api.legislaturas.legislaturas_api import (
+from src.api.camara.legislaturas.legislaturas_api import (
     get_legislaturas,
     get_legislatura_details,
 )

@@ -1,7 +1,7 @@
 import pytest
-from src.api.legislaturas.legislaturas_api import get_legislaturas, get_legislatura_details
-from src.api.partidos.partidos_api import get_partidos
-from src.api.blocos.blocos_api import get_blocos
+from src.api.camara.legislaturas.legislaturas_api import get_legislaturas, get_legislatura_details
+from src.api.camara.partidos.partidos_api import get_partidos
+from src.api.camara.blocos.blocos_api import get_blocos
 
 
 @pytest.mark.asyncio

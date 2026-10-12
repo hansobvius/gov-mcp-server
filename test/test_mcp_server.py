@@ -1,7 +1,7 @@
 import pytest
 import json
 from src.config import mcp
-import src.tools.deputies_tools as deputies_tools
+import src.tools.camara.deputies_tools as deputies_tools
 import main
 
 

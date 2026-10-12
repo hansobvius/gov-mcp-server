@@ -11,15 +11,15 @@ import sys
 from src.config import mcp
 
 # Import all tool modules to register their @mcp.tool() decorators
-import src.tools.deputies_tools
-import src.tools.proposition_tools
-import src.tools.votacoes_tools
-import src.tools.orgaos_tools
-import src.tools.partidos_blocos_tools
-import src.tools.eventos_tools
-import src.tools.frentes_grupos_tools
-import src.tools.legislaturas_tools
-import src.tools.referencias_tools
+import src.tools.camara.deputies_tools
+import src.tools.camara.proposition_tools
+import src.tools.camara.votacoes_tools
+import src.tools.camara.orgaos_tools
+import src.tools.camara.partidos_blocos_tools
+import src.tools.camara.eventos_tools
+import src.tools.camara.frentes_grupos_tools
+import src.tools.camara.legislaturas_tools
+import src.tools.camara.referencias_tools
 import src.tools.senado.senadores_tools
 import src.tools.senado.comissoes_tools
 import src.tools.senado.composicao_tools

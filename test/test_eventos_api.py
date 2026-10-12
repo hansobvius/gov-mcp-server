@@ -1,5 +1,5 @@
 import pytest
-from src.api.eventos.eventos_api import get_eventos, get_evento_details
+from src.api.camara.eventos.eventos_api import get_eventos, get_evento_details
 
 
 @pytest.mark.asyncio

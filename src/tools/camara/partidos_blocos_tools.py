@@ -1,13 +1,13 @@
 import json
 from typing import Any, Dict, List, Optional, Union
 from src.config import mcp
-from src.api.partidos.partidos_api import (
+from src.api.camara.partidos.partidos_api import (
     get_partidos,
     get_partido_details,
     get_partido_lideres,
     get_partido_membros,
 )
-from src.api.blocos.blocos_api import (
+from src.api.camara.blocos.blocos_api import (
     get_blocos,
     get_bloco_details,
     get_bloco_partidos,

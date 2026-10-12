@@ -1,12 +1,12 @@
 import json
 from typing import Any, Dict, List, Optional, Union
 from src.config import mcp
-from src.api.frentes.frentes_api import (
+from src.api.camara.frentes.frentes_api import (
     get_frentes,
     get_frente_details,
     get_frente_membros,
 )
-from src.api.grupos.grupos_api import (
+from src.api.camara.grupos.grupos_api import (
     get_grupos,
     get_grupo_details,
     get_grupo_historico,

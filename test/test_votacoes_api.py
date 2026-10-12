@@ -1,5 +1,5 @@
 import pytest
-from src.api.votacoes.votacoes_api import get_votacoes, get_votacao_details
+from src.api.camara.votacoes.votacoes_api import get_votacoes, get_votacao_details
 
 
 @pytest.mark.asyncio

@@ -14,16 +14,16 @@ sys.path.insert(0, project_root)
 
 from src.config import mcp
 from src.api.client import get_request
-from src.api.deputies.deputies_api import get_deputados, get_deputy_details
-from src.api.propositions.propositions_api import get_proposicoes
-from src.api.votacoes.votacoes_api import get_votacoes
-from src.api.orgaos.orgaos_api import get_orgaos
-from src.api.partidos.partidos_api import get_partidos
-from src.api.eventos.eventos_api import get_eventos
-from src.api.frentes.frentes_api import get_frentes
-from src.api.grupos.grupos_api import get_grupos
-from src.api.legislaturas.legislaturas_api import get_legislaturas
-from src.api.referencias.referencias_api import get_referencias_ufs
+from src.api.camara.deputies.deputies_api import get_deputados, get_deputy_details
+from src.api.camara.propositions.propositions_api import get_proposicoes
+from src.api.camara.votacoes.votacoes_api import get_votacoes
+from src.api.camara.orgaos.orgaos_api import get_orgaos
+from src.api.camara.partidos.partidos_api import get_partidos
+from src.api.camara.eventos.eventos_api import get_eventos
+from src.api.camara.frentes.frentes_api import get_frentes
+from src.api.camara.grupos.grupos_api import get_grupos
+from src.api.camara.legislaturas.legislaturas_api import get_legislaturas
+from src.api.camara.referencias.referencias_api import get_referencias_ufs
 import main
 
 
